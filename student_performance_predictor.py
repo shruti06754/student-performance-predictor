@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,17 +29,17 @@ data["Final Marks"] = data["Final Marks"].clip(0, 100)
 data.head()
 
 
-print("Number of rows:", len(data))
-print("\nMissing values:")
-print(data.isnull().sum())
-print("\nDuplicate rows:", data.duplicated().sum())
+st.write("Number of rows:", len(data))
+st.write("\nMissing values:")
+st.write(data.isnull().sum())
+st.write("\nDuplicate rows:", data.duplicated().sum())
 
 
 data = data.drop_duplicates()
 
 data = data.fillna(data.mean(numeric_only=True))
 
-print("Data preprocessing completed.")
+st.write("Data preprocessing completed.")
 
 plt.figure(figsize=(7, 5))
 
@@ -98,8 +99,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42
 )
 
-print("Training data:", len(X_train))
-print("Testing data:", len(X_test))
+st.write("Training data:", len(X_train))
+st.write("Testing data:", len(X_test))
 
 
 model = RandomForestRegressor(
@@ -109,12 +110,12 @@ model = RandomForestRegressor(
 
 model.fit(X_train, y_train)
 
-print("Model trained successfully!")
+st.write("Model trained successfully!")
 
 
 y_pred = model.predict(X_test)
 
-print("Predictions completed!")
+st.write("Predictions completed!")
 
 
 result = pd.DataFrame({
@@ -122,7 +123,7 @@ result = pd.DataFrame({
     "Predicted Marks": y_pred
 })
 
-print(result.head(10))
+st.write(result.head(10))
 
 
 mae = mean_absolute_error(y_test, y_pred)
@@ -131,9 +132,9 @@ mse = mean_squared_error(y_test, y_pred)
 
 r2 = r2_score(y_test, y_pred)
 
-print("MAE:", round(mae, 2))
-print("MSE:", round(mse, 2))
-print("R2 Score:", round(r2, 2))
+st.write("MAE:", round(mae, 2))
+st.write("MSE:", round(mse, 2))
+st.write("R2 Score:", round(r2, 2))
 
 
 plt.figure(figsize=(8, 5))
@@ -156,11 +157,11 @@ new_student = pd.DataFrame({
 
 prediction = model.predict(new_student)
 
-print("Predicted Final Marks:", round(prediction[0], 2))
+st.write("Predicted Final Marks:", round(prediction[0], 2))
 
 result.to_csv(
     "student_predictions.csv",
     index=False
 )
 
-print("Results saved successfully!")
+st.write("Results saved successfully!")
