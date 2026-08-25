@@ -17,7 +17,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-"""## Create a sample dataset"""
 
 np.random.seed(42)
 students = 200
@@ -39,22 +38,18 @@ data["Final Marks"] = (
 data["Final Marks"] = data["Final Marks"].clip(0, 100)
 data.head()
 
-"""# Check the data"""
 
 print("Number of rows:", len(data))
 print("\nMissing values:")
 print(data.isnull().sum())
 print("\nDuplicate rows:", data.duplicated().sum())
 
-"""# Data pre-processing"""
 
 data = data.drop_duplicates()
 
 data = data.fillna(data.mean(numeric_only=True))
 
 print("Data preprocessing completed.")
-
-"""# EDA-Study hours VS Final marks"""
 
 plt.figure(figsize=(7, 5))
 
@@ -69,7 +64,6 @@ plt.title("Study Hours vs Final Marks")
 
 plt.show()
 
-"""# EDA-Attendance VS Final marks"""
 
 plt.figure(figsize=(7, 5))
 
@@ -84,7 +78,6 @@ plt.title("Attendance vs Final Marks")
 
 plt.show()
 
-"""# Distribution of marks"""
 
 plt.figure(figsize=(7, 5))
 
@@ -96,7 +89,6 @@ plt.title("Distribution of Final Marks")
 
 plt.show()
 
-"""# Select input and output"""
 
 X = data[
     [
@@ -109,7 +101,6 @@ X = data[
 
 y = data["Final Marks"]
 
-"""# Split the data"""
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -121,7 +112,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("Training data:", len(X_train))
 print("Testing data:", len(X_test))
 
-"""# Create the Random Forest model"""
 
 model = RandomForestRegressor(
     n_estimators=100,
@@ -132,13 +122,11 @@ model.fit(X_train, y_train)
 
 print("Model trained successfully!")
 
-"""# Make predictions"""
 
 y_pred = model.predict(X_test)
 
 print("Predictions completed!")
 
-"""# Compare actual and predicted marks"""
 
 result = pd.DataFrame({
     "Actual Marks": y_test.values,
@@ -147,7 +135,6 @@ result = pd.DataFrame({
 
 print(result.head(10))
 
-"""# Evaluate the model"""
 
 mae = mean_absolute_error(y_test, y_pred)
 
@@ -159,7 +146,6 @@ print("MAE:", round(mae, 2))
 print("MSE:", round(mse, 2))
 print("R2 Score:", round(r2, 2))
 
-"""# Actual vs Predicted graph"""
 
 plt.figure(figsize=(8, 5))
 
@@ -171,7 +157,6 @@ plt.title("Actual vs Predicted Marks")
 
 plt.show()
 
-"""# Predict marks for a new student"""
 
 new_student = pd.DataFrame({
     "Study Hours": [7],
@@ -183,8 +168,6 @@ new_student = pd.DataFrame({
 prediction = model.predict(new_student)
 
 print("Predicted Final Marks:", round(prediction[0], 2))
-
-"""# Save your results"""
 
 result.to_csv(
     "student_predictions.csv",
